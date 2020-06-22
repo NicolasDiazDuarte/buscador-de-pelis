@@ -1,5 +1,6 @@
 import React ,{Component} from 'react' ;
 
+
 export class SearchForm extends Component{
     state= {
         inputMovie:''
@@ -11,7 +12,16 @@ export class SearchForm extends Component{
 
     _handleSubmit = (e) => {
         e.preventDefault()
-        alert(this.state.inputMovie)
+        
+        const {inputMovie} = this.state 
+        
+        fetch(`http://www.omdbapi.com/?apikey=6f84e780&s=${inputMovie}`)
+            .then (res => res.json())
+            .then (results => {
+                const {Search,totalResults} = results
+                console.log({Search,totalResults})
+                this.props.onResults(Search)
+            })
     }
 
     render() {
